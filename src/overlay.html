@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Music Overlay</title>
+    <style>
+        body {
+            background: rgba(36, 36, 36, 0.8);
+            color: white;
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 15px;
+        }
+
+        .overlay {
+            display: flex;
+            align-items: center;
+        }
+
+        .cover-art {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            margin-right: 15px;
+        }
+
+        .info {
+            flex-grow: 1;
+        }
+
+        .song-title {
+            font-size: 18px;
+            font-weight: bold;
+            color: #00FFC6;
+        }
+
+        .artist {
+            font-size: 14px;
+            color: #FFFFFF;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="overlay">
+        <img src="" alt="Cover Art" class="cover-art">
+        <div class="info">
+            <div class="song-title">Title</div>
+            <div class="artist">Artist</div>
+        </div>
+    </div>
+
+    <script>
+        window.electronAPI.onUpdateOverlay((event, musicInfo) => {
+            console.log('Music info:', musicInfo);
+            document.querySelector('.song-title').textContent = musicInfo.title;
+            document.querySelector('.artist').textContent = musicInfo.artistAlbum;
+            document.querySelector('.cover-art').src = musicInfo.thumbnail;
+        });
+    </script>
+</body>
+
+</html>

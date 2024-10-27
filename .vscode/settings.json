@@ -1,0 +1,49 @@
+{
+    "workbench.colorCustomizations": { //Styles used for front projects
+        "activityBar.activeBackground": "#0c3d27",
+        "activityBar.activeBorder": "#ffffff",
+        "activityBar.background": "#0c3d27",
+        "activityBar.foreground": "#ffffff",
+        "activityBar.inactiveForeground": "#fff",
+        "activityBarBadge.background": "#fff",
+        "activityBarBadge.foreground": "#000",
+        "statusBar.background": "#0c3d27",
+        "statusBar.foreground": "#fff",
+        "statusBarItem.hoverBackground": "#0c3d27",
+        "titleBar.activeBackground": "#0c3d27",
+        "titleBar.activeForeground": "#e7e7e799",
+        "titleBar.inactiveBackground": "#052617",
+        "titleBar.inactiveForeground": "#e7e7e799"
+    },
+    "editor.defaultFormatter": "esbenp.prettier-vscode",
+    "editor.formatOnSave": true,
+    "[vue]": {
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+    },
+    "editor.wordWrap": "on",
+    "editor.tokenColorCustomizations": {
+        "textMateRules": [
+            // {
+            //     "scope": "variable",
+            //     "settings": {
+            //         "foreground": "#39ff14", // Color verde neón para variables
+            //         "fontStyle": "bold"
+            //     }
+            // },
+            // {
+            //     "scope": "constant",
+            //     "settings": {
+            //         "foreground": "#ff073a", // Color rojo neón para constantes
+            //         "fontStyle": "bold"
+            //     }
+            // },
+            // {
+            //     "scope": "keyword",
+            //     "settings": {
+            //         "foreground": "#00ffff", // Color cian neón para palabras reservadas
+            //         "fontStyle": "italic"
+            //     }
+            // }
+        ]
+    },
+}
