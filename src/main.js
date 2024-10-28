@@ -22,7 +22,7 @@ const createWindow = () => {
     // Crear la ventana para el overlay
     overlayWindow = new BrowserWindow({
         width: 500,
-        height: 200,
+        height: 160,
         frame: false,  // Sin marco
         transparent: true,  // Fondo transparente
         alwaysOnTop: true,  // Siempre arriba
