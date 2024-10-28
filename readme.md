@@ -2,7 +2,7 @@
 
 An Electron-based overlay designed to display real-time information about the currently playing song on YouTube Music. This project is ideal for streamers and developers who want a visually appealing and modern way to showcase their music during live streams.
 
-![YouTube Music Overlay Screenshot](![alt text](public/image.png))
+![YouTube Music Overlay Screenshot]![alt text](public/image1.png)
 
 ## Features 🌟
 
