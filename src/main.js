@@ -1,5 +1,5 @@
 
-const { app, BrowserWindow, ipcMain, Menu } = require('electron')
+const { app, BrowserWindow, ipcMain, screen } = require('electron')
 const path = require('path');
 let overlayWindow;
 
@@ -25,7 +25,7 @@ const createWindow = () => {
         height: 200,
         frame: false,  // Sin marco
         transparent: true,  // Fondo transparente
-        alwaysOnTop: false,  // Siempre arriba
+        alwaysOnTop: true,  // Siempre arriba
         resizable: true,    // Permitir redimensionar
         movable: true,      // Permitir mover
         skipTaskbar: true, // No mostrar en la barra de tareas
@@ -35,6 +35,12 @@ const createWindow = () => {
             nodeIntegration: false,
         }
     });
+
+    // Obtener el tamaño de la pantalla
+    const { width, height } = screen.getPrimaryDisplay().workAreaSize;
+
+    // Establecer la posición de la ventana en la esquina inferior derecha
+    overlayWindow.setPosition(width - overlayWindow.getBounds().width, height - overlayWindow.getBounds().height);
 
     overlayWindow.loadFile('src/overlay.html');  // Carga el HTML que mostrará el overlay
 
