@@ -1,0 +1,179 @@
+/* Variables CSS para colores y tamaños */
+:root {
+    --color1: #00c8ff;
+    --color2: #df01f8;
+    --progress-color: #00ffc6;
+    --background-dark: #052e44f0;
+    --shadow-size: 15px;
+    --offset: 5px;
+}
+
+/* Configuración de scroll */
+::-webkit-scrollbar {
+    display: none;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    background: transparent;
+    color: white;
+    font-family: Arial, sans-serif;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px;
+}
+
+.overlay {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    width: 100%;
+    max-width: 600px;
+    /* Para controlar el ancho total */
+    border-radius: 15px;
+    position: relative;
+    animation: rotate-shadow 10s infinite linear;
+    background-color: rgba(0, 0, 0, 0.6);
+    /* Fondo oscuro para el overlay */
+}
+
+.draggable {
+    -webkit-app-region: drag;
+}
+
+.image-container {
+    width: 20%;
+    height: 100px;
+    overflow: hidden;
+    border-radius: 10px;
+}
+
+.cover-art {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+}
+
+.info {
+    width: 80%;
+    padding-left: 10px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.song-title,
+.artist {
+    width: 100%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    display: inline-block;
+}
+
+.song-title {
+    font-size: 18px;
+    font-weight: bold;
+    color: var(--progress-color);
+    text-shadow: 0 0 5px var(--progress-color);
+    margin-bottom: 5px;
+}
+
+.artist {
+    font-size: 14px;
+    color: #ffffff;
+    opacity: 0.9;
+}
+
+.bg-semi-transparent {
+    background-color: var(--background-dark);
+    border-radius: 10px;
+    padding: 5px 10px;
+}
+
+.progress-container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    margin-top: 5px;
+    flex-wrap: wrap;
+}
+
+.time {
+    font-size: 14px;
+    color: #ffffff;
+    opacity: 0.8;
+    min-width: 40px;
+    text-align: center;
+}
+
+.equalizer {
+    display: flex;
+    gap: 3px;
+    flex-grow: 1;
+    height: 20px;
+    padding: 0 10px;
+    align-items: end;
+    justify-content: space-between;
+}
+
+.equalizer div {
+    background-color: var(--color2);
+    height: 3px;
+    transition: height 0.5s ease;
+    display: inline-block;
+    border-radius: 5px;
+    width: 4px;
+}
+
+.progress-bar-container {
+    height: 5px;
+    width: 100%;
+    background-color: #036a53;
+    border-radius: 5px;
+    position: relative;
+    margin-top: 5px;
+}
+
+.progress-bar {
+    height: 100%;
+    width: 0%;
+    background-color: var(--progress-color);
+    box-shadow: 0 0 10px var(--progress-color);
+    border-radius: 5px;
+    transition: width 0.2s ease;
+}
+
+@keyframes rotate-shadow {
+    0% {
+        box-shadow: 0 0 var(--shadow-size) var(--color1), 0 0 var(--shadow-size) var(--color2),
+            calc(var(--offset) * -1) calc(var(--offset) * -1) var(--shadow-size) var(--color1), var(--offset) var(--offset) var(--shadow-size) var(--color2);
+    }
+
+    25% {
+        box-shadow: calc(var(--offset) * -1) var(--offset) var(--shadow-size) var(--color1),
+            var(--offset) calc(var(--offset) * -1) var(--shadow-size) var(--color2);
+    }
+
+    50% {
+        box-shadow: var(--offset) var(--offset) var(--shadow-size) var(--color2),
+            calc(var(--offset) * -1) calc(var(--offset) * -1) var(--shadow-size) var(--color1);
+    }
+
+    75% {
+        box-shadow: var(--offset) calc(var(--offset) * -1) var(--shadow-size) var(--color2),
+            calc(var(--offset) * -1) var(--offset) var(--shadow-size) var(--color1);
+    }
+
+    100% {
+        box-shadow: 0 0 var(--shadow-size) var(--color1), 0 0 var(--shadow-size) var(--color2),
+            calc(var(--offset) * -1) calc(var(--offset) * -1) var(--shadow-size) var(--color1), var(--offset) var(--offset) var(--shadow-size) var(--color2);
+    }
+}

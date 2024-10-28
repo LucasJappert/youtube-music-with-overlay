@@ -1,83 +1,81 @@
-
-const { app, BrowserWindow, ipcMain, screen } = require('electron')
+const { app, BrowserWindow, ipcMain, screen } = require('electron');
 const path = require('path');
 let overlayWindow;
 
 console.log('Hello from Electron 👋');
 
-const createWindow = () => {
+const createMainWindow = () => {
     const mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
         icon: path.join(__dirname, 'assets/icons/icon.png'),
         webPreferences: {
-            preload: path.join(__dirname, 'preload.js'), // Cargar el preload.js compilado
+            preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
             contextIsolation: true,
         },
-    })
+    });
 
-    mainWindow.loadURL('https://music.youtube.com')
+    mainWindow.loadURL('https://music.youtube.com');
 
-    // Crear la ventana para el overlay
+    // Cerrar la aplicación al cerrar la ventana principal
+    mainWindow.on('closed', () => app.quit());
+    mainWindow.on('close', () => mainWindow.destroy()); // Forzar destrucción al cerrar
+
+    return mainWindow;
+};
+
+const createOverlayWindow = () => {
     overlayWindow = new BrowserWindow({
         width: 500,
         height: 160,
-        frame: false,  // Sin marco
-        transparent: true,  // Fondo transparente
-        alwaysOnTop: true,  // Siempre arriba
-        resizable: true,    // Permitir redimensionar
-        movable: true,      // Permitir mover
-        skipTaskbar: true, // No mostrar en la barra de tareas
+        frame: false,
+        transparent: true,
+        alwaysOnTop: true,
+        resizable: true,
+        movable: true,
+        skipTaskbar: true,
         webPreferences: {
             preload: path.join(__dirname, 'preload-overlay.js'),
             contextIsolation: true,
             nodeIntegration: false,
-        }
+        },
     });
 
-    // Obtener el tamaño de la pantalla
+    // Posicionar el overlay en la esquina inferior derecha de la pantalla
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
-
-    // Establecer la posición de la ventana en la esquina inferior derecha
     overlayWindow.setPosition(width - overlayWindow.getBounds().width, height - overlayWindow.getBounds().height);
 
-    overlayWindow.loadFile('src/overlay.html');  // Carga el HTML que mostrará el overlay
+    overlayWindow.loadFile('src/views/overlay-music/index.html');
 
-    ipcMain.on('update-music-info', (event, musicInfo) => {
-        if (!overlayWindow || overlayWindow.isDestroyed()) return;  // Verificar si la ventana del overlay ha sido destruida
+    // Salir de la aplicación si se cierra el overlay
+    overlayWindow.on('closed', () => app.quit());
 
+    return overlayWindow;
+};
+
+// Evento para actualizar la información de la música en el overlay
+ipcMain.on('update-music-info', (event, musicInfo) => {
+    if (overlayWindow && !overlayWindow.isDestroyed()) {
         console.log('Music info:', musicInfo);
-        overlayWindow.webContents.send('update-overlay', musicInfo);  // Enviar datos a la ventana del overlay
-    });
+        overlayWindow.webContents.send('update-overlay', musicInfo);
+    }
+});
 
-    // Si la ventana principal se cierra, salir de la aplicación
-    mainWindow.on('closed', () => {
-        app.quit();
-    });
-
-    mainWindow.on('close', (event) => {
-        // Forzar el cierre sin importar el estado de la música
-        mainWindow.destroy(); // Esto destruirá la ventana de inmediato
-    });
-
-
-    overlayWindow.on('closed', () => {
-        app.quit();
-    });
-
-    // Quitar el menú de la aplicación
-    // Menu.setApplicationMenu(null);  // Esto elimina el menú predeterminado
-}
-
+// Crear las ventanas al estar la aplicación lista
 app.whenReady().then(() => {
-    createWindow()
+    createMainWindow();
+    createOverlayWindow();
 
     app.on('activate', () => {
-        if (BrowserWindow.getAllWindows().length === 0) createWindow()
-    })
-})
+        if (BrowserWindow.getAllWindows().length === 0) {
+            createMainWindow();
+            createOverlayWindow();
+        }
+    });
+});
 
+// Salir de la aplicación al cerrar todas las ventanas en plataformas que no sean macOS
 app.on('window-all-closed', () => {
-    if (process.platform !== 'darwin') app.quit()
-})
+    if (process.platform !== 'darwin') app.quit();
+});
