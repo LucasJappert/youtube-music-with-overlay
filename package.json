@@ -1,15 +1,25 @@
 {
-  "name": "my-electron-app",
-  "version": "1.0.0",
-  "main": "src/main.js",
-  "scripts": {
-    "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1"
-  },
-  "author": "",
-  "license": "ISC",
-  "description": "",
-  "devDependencies": {
-    "electron": "^33.0.2"
-  }
+    "name": "my-electron-app",
+    "version": "1.0.0",
+    "main": "src/main.js",
+    "scripts": {
+        "start": "electron .",
+        "build": "electron-builder"
+    },
+    "author": "",
+    "license": "ISC",
+    "description": "",
+    "devDependencies": {
+        "electron": "^33.0.2",
+        "electron-builder": "^25.1.8"
+    },
+    "build": {
+        "appId": "codewithmarty.my-youtube-music",
+        "productName": "My Youtube Music",
+        "linux": {
+            "target": "AppImage",
+            "category": "Utility",
+            "icon": "src/assets/icons/app-icon.png"
+        }
+    }
 }
