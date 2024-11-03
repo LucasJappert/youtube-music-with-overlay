@@ -10,8 +10,12 @@ for (let i = 1; i <= barCount; i++) {
 
 // Helper para conversión de tiempo a segundos
 function convertToSeconds(timeString) {
-    const [minutes, seconds] = timeString.split(':').map(Number);
-    return minutes * 60 + seconds;
+    const parts = timeString.split(':').map(Number).reverse();
+    const seconds = parts.length >= 1 ? parts[0] : 0;
+    const minutes = parts.length >= 2 ? parts[1] : 0;
+    const hours = parts.length >= 3 ? parts[2] : 0;
+
+    return hours * 3600 + minutes * 60 + seconds;
 }
 
 const equalizerBars = document.querySelectorAll('.equalizer div');
@@ -43,6 +47,8 @@ window.electronAPI.onUpdateOverlay((event, musicInfo) => {
     const [currentTime, totalTime] = (musicInfo.timeInfo || '0:00 de 0:00').split(' de ');
     document.querySelector('.current-time').textContent = currentTime;
     document.querySelector('.total-time').textContent = totalTime;
+
+    console.log(`Current time: ${currentTime}, Total time: ${totalTime}`);
 
     const currentTimeInSeconds = convertToSeconds(currentTime);
     const totalTimeInSeconds = convertToSeconds(totalTime);

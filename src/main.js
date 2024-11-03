@@ -1,26 +1,31 @@
-const { app, BrowserWindow, ipcMain, screen } = require('electron');
+const { app, BrowserWindow, ipcMain, screen, Menu } = require('electron');
 const path = require('path');
 let overlayWindow;
 
 console.log('Hello from Electron 👋');
 
+const isDev = !app.isPackaged;
+
 const createMainWindow = () => {
     const mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
-        icon: path.join(__dirname, 'assets/icons/icon.png'),
+        // icon: path.join(__dirname, 'assets/icons/icon.png'),
+        icon: path.join(__dirname, 'assets', 'icons/youtube-music-overlay.png'), // Ruta al icono
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
             contextIsolation: true,
         },
     });
-
+    console.log(process.env.NODE_ENV);
     mainWindow.loadURL('https://music.youtube.com');
 
     // Cerrar la aplicación al cerrar la ventana principal
     mainWindow.on('closed', () => app.quit());
     mainWindow.on('close', () => mainWindow.destroy()); // Forzar destrucción al cerrar
+
+    if (!isDev) Menu.setApplicationMenu(null);
 
     return mainWindow;
 };

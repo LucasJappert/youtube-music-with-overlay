@@ -19,7 +19,7 @@
         "linux": {
             "target": "AppImage",
             "category": "Utility",
-            "icon": "src/assets/icons/app-icon.png"
+            "icon": "src/assets/icons/youtube-music-overlay.png"
         }
     }
 }
