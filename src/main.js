@@ -10,8 +10,7 @@ const createMainWindow = () => {
     const mainWindow = new BrowserWindow({
         width: 1200,
         height: 800,
-        // icon: path.join(__dirname, 'assets/icons/icon.png'),
-        icon: path.join(__dirname, 'assets', 'icons/youtube-music-overlay.png'), // Ruta al icono
+        icon: path.join(__dirname, 'public/app-icon.png'),
         webPreferences: {
             preload: path.join(__dirname, 'preload.js'),
             nodeIntegration: false,
@@ -21,9 +20,9 @@ const createMainWindow = () => {
     console.log(process.env.NODE_ENV);
     mainWindow.loadURL('https://music.youtube.com');
 
-    // Cerrar la aplicación al cerrar la ventana principal
+    // Close the app when the main window is closed
     mainWindow.on('closed', () => app.quit());
-    mainWindow.on('close', () => mainWindow.destroy()); // Forzar destrucción al cerrar
+    mainWindow.on('close', () => mainWindow.destroy());
 
     if (!isDev) Menu.setApplicationMenu(null);
 
@@ -47,19 +46,19 @@ const createOverlayWindow = () => {
         },
     });
 
-    // Posicionar el overlay en la esquina inferior derecha de la pantalla
+    // Relocate the overlay to the bottom right corner of the screen
     const { width, height } = screen.getPrimaryDisplay().workAreaSize;
     overlayWindow.setPosition(width - overlayWindow.getBounds().width, height - overlayWindow.getBounds().height);
 
     overlayWindow.loadFile('src/views/overlay-music/index.html');
 
-    // Salir de la aplicación si se cierra el overlay
+    // Close the app when the overlay is closed
     overlayWindow.on('closed', () => app.quit());
 
     return overlayWindow;
 };
 
-// Evento para actualizar la información de la música en el overlay
+// Event used for updating music information in the overlay
 ipcMain.on('update-music-info', (event, musicInfo) => {
     if (overlayWindow && !overlayWindow.isDestroyed()) {
         console.log('Music info:', musicInfo);
@@ -67,7 +66,7 @@ ipcMain.on('update-music-info', (event, musicInfo) => {
     }
 });
 
-// Crear las ventanas al estar la aplicación lista
+// Close windows when the app is ready
 app.whenReady().then(() => {
     createMainWindow();
     createOverlayWindow();
@@ -80,7 +79,7 @@ app.whenReady().then(() => {
     });
 });
 
-// Salir de la aplicación al cerrar todas las ventanas en plataformas que no sean macOS
+// Close the app when all windows are closed in platforms other than macOS
 app.on('window-all-closed', () => {
     if (process.platform !== 'darwin') app.quit();
 });
