@@ -3,7 +3,7 @@
     "version": "1.0.0",
     "main": "src/main.js",
     "scripts": {
-        "start": "electron .",
+        "dev": "electron .",
         "build": "electron-builder && npm run post-build",
         "post-build": "node post-build.mjs"
     },

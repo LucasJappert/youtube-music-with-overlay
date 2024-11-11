@@ -33,10 +33,11 @@ const createOverlayWindow = () => {
     overlayWindow = new BrowserWindow({
         width: 500,
         height: 160,
+        icon: path.join(__dirname, 'public/app-icon.png'),
         frame: false,
         transparent: true,
         alwaysOnTop: true,
-        resizable: true,
+        resizable: false,
         movable: true,
         skipTaskbar: true,
         webPreferences: {
